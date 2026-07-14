@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PIXELS '26 — Pitch Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* =============================================
+       VARIABLES & RESET
+    ============================================= */
+    :root {
+      --black: #06060a;
+      --white: #f7f5f0;
+      --gold: #c8a96e;
+      --gold-dim: rgba(200, 169, 110, 0.18);
+      --glass: rgba(12, 12, 16, 0.72);
+      --glass-border: rgba(255, 255, 255, 0.07);
+      --muted: #7a7a8c;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--black);
+      color: var(--white);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    img {
+      display: block;
+      object-fit: cover;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* =============================================
+       SCROLL DECK
+    ============================================= */
+    .deck {
+      height: 100vh;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .deck::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* =============================================
+       SLIDES - BASE
+    ============================================= */
+    .slide {
+      height: 100vh;
+      width: 100vw;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Slide-in animation orchestration via JS */
+    .slide-inner {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 1380px;
+      padding: 0 6rem;
+      margin: 0 auto;
+    }
+
+    /* Shared full-cover background */
+    .slide-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .slide-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      max-width: none;
+      will-change: transform;
+    }
+
+    .slide-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    /* =============================================
+       NAV DOTS
+    ============================================= */
+    .nav-dots {
+      position: fixed;
+      right: 2.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .nav-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      transition: all 0.35s ease;
+      border: none;
+    }
+
+    .nav-dot.active {
+      background: var(--gold);
+      height: 22px;
+      border-radius: 3px;
+    }
+
+    /* =============================================
+       SLIDE 1 — HERO
+    ============================================= */
+    #s1 .slide-bg img {
+      object-position: center;
+      transform: scale(1.08);
+      transition: transform 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    #s1.entered .slide-bg img {
+      transform: scale(1);
+    }
+
+    #s1 .slide-bg::after {
+      background: linear-gradient(105deg,
+          rgba(6, 6, 10, 0.92) 0%,
+          rgba(6, 6, 10, 0.6) 55%,
+          rgba(6, 6, 10, 0.2) 100%);
+    }
+
+    .hero-logo {
+      position: absolute;
+      top: 2.8rem;
+      left: 6rem;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .hero-logo img {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      object-fit: contain;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-logo-text {
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.55);
+      line-height: 1.4;
+    }
+
+    .hero-content {
+      max-width: 750px;
+    }
+
+    .hero-contact-btn {
+      position: absolute;
+      top: 2.8rem;
+      right: 6rem;
+      z-index: 20;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 0.6rem 1.2rem;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .hero-contact-btn:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+      background: rgba(200, 169, 110, 0.05);
+    }
+
+    .hero-contact-btn svg {
+      transition: transform 0.3s ease;
+    }
+
+    .hero-contact-btn:hover svg {
+      transform: translateY(2px);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2rem;
+    }
+
+    .tag::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .hero-h1 {
+      font-family: var(--serif);
+      font-size: clamp(5rem, 10vw, 9.5rem);
+      font-weight: 300;
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.8rem;
+    }
+
+    .hero-h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-subtitle {
+      font-size: 1.15rem;
+      font-weight: 300;
+      color: rgba(247, 245, 240, 0.6);
+      margin-bottom: 3rem;
+      letter-spacing: 0.02em;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      border: 1px solid rgba(200, 169, 110, 0.4);
+      border-radius: 100px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+    }
+
+    /* =============================================
+       SLIDE 2 — ABOUT
+    ============================================= */
+    #s2 .slide-bg::after {
+      background: linear-gradient(to right,
+          rgba(6, 6, 10, 0.97) 0%,
+          rgba(6, 6, 10, 0.7) 55%,
+          rgba(6, 6, 10, 0.2) 100%);
+    }
+
+    #s2 .slide-bg img {
+      object-position: right center;
+    }
+
+    .about-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .section-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .section-tag::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .section-h2 {
+      font-family: var(--serif);
+      font-size: clamp(2.6rem, 4vw, 4rem);
+      font-weight: 300;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-h2 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .body-p {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: rgba(247, 245, 240, 0.6);
+      margin-bottom: 2.5rem;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 2.5rem;
+      margin-bottom: 3rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .stat-num {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3vw, 3rem);
+      font-weight: 400;
+      color: var(--gold);
+      line-height: 1;
+      display: block;
+    }
+
+    .stat-lbl {
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.3rem;
+      display: block;
+    }
+
+    .sponsors-row {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .sponsors-lbl {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .sponsor-chip {
+      padding: 0.4rem 1.2rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 100px;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    /* Right visual — main poster */
+    .poster-wrap {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+      background: #111;
+    }
+
+    .poster-wrap img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      transition: transform 0.8s ease;
+    }
+
+    .poster-wrap:hover img {
+      transform: scale(1.03);
+    }
+
+    /* =============================================
+       SLIDE 3 — THEMES
+    ============================================= */
+    #s3 {
+      background: #06060a;
+    }
+
+    #s3 .slide-bg::after {
+      background: rgba(6, 6, 10, 0.85);
+    }
+
+    .themes-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .themes-strip {
+      display: flex;
+      gap: 1rem;
+      height: 58vh;
+      width: 100%;
+    }
+
+    .theme-card {
+      flex: 1 1 0%;
+      border-radius: 14px;
+      overflow: hidden;
+      position: relative;
+      background: #000;
+      cursor: pointer;
+      /* GPU-accelerated flex transition */
+      transition: flex 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: flex;
+      min-width: 0;
+    }
+
+    .theme-card:hover {
+      flex: 3.5 1 0%;
+    }
+
+    .theme-card img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.5s ease, object-fit 0.6s ease;
+    }
+
+    .theme-card:not(:hover) img {
+      opacity: 0.55;
+    }
+
+    .theme-card:hover img {
+      opacity: 1;
+      object-fit: contain;
+    }
+
+    .theme-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.1) 50%, transparent 100%);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .theme-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 3;
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .theme-name {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      display: block;
+      white-space: nowrap;
+    }
+
+    .theme-desc {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.55;
+      margin-top: 0.5rem;
+      width: 300px;
+      /* Smooth fade/slide — only opacity + transform, no layout */
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.35s ease 0.1s, transform 0.35s ease 0.1s;
+    }
+
+    .theme-card:hover .theme-desc {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =============================================
+       SLIDE 4 — PAST WINNERS
+     ============================================= */
+    #s4 {
+      background: #08080c;
+    }
+
+    #s4 .slide-bg::after {
+      background: rgba(6, 6, 10, 0.65);
+    }
+
+    .winners-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+    }
+
+    .winners-grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 1rem;
+      height: 62vh;
+    }
+
+    .winner-cell {
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      background: #111;
+    }
+
+    .winner-cell.span-col {
+      grid-column: 1;
+      grid-row: 1 / 3;
+    }
+
+    .winner-cell img {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.7s ease;
+    }
+
+    .winner-cell:hover img {
+      transform: scale(1.04);
+    }
+
+    .winner-cell-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.4rem 1.6rem;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+    }
+
+    .winner-theme {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.2rem;
+    }
+
+    .winner-name {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    /* =============================================
+       SLIDE 5 — MARKETING AVENUES
+    ============================================= */
+    #s5 .slide-bg::after {
+      background: linear-gradient(to left,
+          rgba(6, 6, 10, 0.96) 0%,
+          rgba(6, 6, 10, 0.65) 50%,
+          rgba(6, 6, 10, 0.15) 100%);
+    }
+
+    .marketing-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    /* Put the text column on the left */
+    .marketing-layout .text-col {
+      order: 1;
+    }
+
+    .marketing-layout .visual-col {
+      order: 2;
+    }
+
+    .avenues {
+      list-style: none;
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+    }
+
+    .avenue {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+
+    .avenue-num {
+      font-family: var(--serif);
+      font-size: 2rem;
+      color: var(--gold);
+      line-height: 1;
+      flex-shrink: 0;
+      width: 2rem;
+      text-align: right;
+      margin-top: 0.1rem;
+    }
+
+    .avenue-body h4 {
+      font-size: 1.05rem;
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+    }
+
+    .avenue-body p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+
+    /* =============================================
+       SLIDE 6 — REACH
+     ============================================= */
+    #s6 .slide-bg::after {
+      background: rgba(6, 6, 10, 0.65);
+    }
+
+    .reach-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .platform-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    .platform-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .platform-name {
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+
+    .platform-big {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 5vw, 4.5rem);
+      font-weight: 400;
+      line-height: 1;
+      color: var(--white);
+    }
+
+    .platform-detail {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+
+    /* Deliverables card */
+    .deliver-card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 3.5rem;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .deliver-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+
+    .deliver-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .deliver-title {
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      font-weight: 300;
+      margin-bottom: 0.4rem;
+    }
+
+    .deliver-price {
+      font-family: var(--serif);
+      font-size: 2.8rem;
+      font-weight: 400;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 2rem;
+    }
+
+    .deliver-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .deliver-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      font-size: 0.95rem;
+      color: rgba(247, 245, 240, 0.75);
+    }
+
+    .deliver-list li::before {
+      content: '↗';
+      color: var(--gold);
+      flex-shrink: 0;
+      font-size: 0.8rem;
+      margin-top: 0.15rem;
+    }
+
+    /* =============================================
+       SLIDE 7 — CONTACT
+    ============================================= */
+    #s7 {
+      background: #06060a;
+    }
+
+    #s7::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background: radial-gradient(ellipse 70% 60% at 50% 100%, rgba(200, 169, 110, 0.07) 0%, transparent 70%);
+    }
+
+    .contact-inner {
+      position: relative;
+      z-index: 3;
+      text-align: center;
+    }
+
+    .contact-h2 {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 6vw, 5rem);
+      font-weight: 300;
+      line-height: 1;
+      margin-bottom: 0.6rem;
+    }
+
+    .contact-h2 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .contact-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+
+    .contact-cards-wrap {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      padding: 1.8rem 2.5rem;
+      text-align: center;
+      width: 280px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .contact-card:hover {
+      border-color: rgba(200, 169, 110, 0.2);
+      box-shadow: 0 8px 40px rgba(200, 169, 110, 0.06);
+    }
+
+    .contact-card .contact-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      border: 2px solid rgba(200, 169, 110, 0.5);
+      overflow: hidden;
+    }
+
+    .contact-card .contact-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .contact-card h3 {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 0.2rem;
+    }
+
+    .contact-card .role {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .contact-card .info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .contact-card .info a {
+      font-size: 0.9rem;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+
+    .contact-card .info a:hover {
+      color: var(--white);
+    }
+
+    .social-strip {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .social-strip a {
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+
+    .social-strip a:hover {
+      color: var(--gold);
+    }
+
+    .doodle-annotation {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 0.3rem;
+      pointer-events: none;
+    }
+
+    .doodle-annotation svg {
+      overflow: visible;
+    }
+
+    .doodle-text {
+      font-family: 'Segoe Script', 'Comic Sans MS', 'Brush Script MT', cursive;
+      font-size: 1rem;
+      fill: var(--gold);
+      opacity: 0.85;
+    }
+
+    .doodle-arrow {
+      stroke: var(--gold);
+      stroke-width: 1.8;
+      fill: none;
+      opacity: 0.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 200;
+      stroke-dashoffset: 200;
+    }
+
+    .entered .doodle-arrow {
+      animation: drawArrow 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards;
+    }
+
+    @keyframes drawArrow {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+
+    .collage-bg {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    #s7 .slide-bg::after {
+      background: rgba(6, 6, 10, 0.88);
+    }
+
+    /* =============================================
+       ENTRANCE ANIMATIONS
+    ============================================= */
+    .anim-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.75s cubic-bezier(0.4, 0, 0.2, 1), transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .anim-up.d1 {
+      transition-delay: 0.1s;
+    }
+
+    .anim-up.d2 {
+      transition-delay: 0.22s;
+    }
+
+    .anim-up.d3 {
+      transition-delay: 0.34s;
+    }
+
+    .anim-up.d4 {
+      transition-delay: 0.46s;
+    }
+
+    .anim-up.d5 {
+      transition-delay: 0.55s;
+    }
+
+    .anim-fade {
+      opacity: 0;
+      transition: opacity 0.9s ease;
+    }
+
+    .anim-fade.d1 {
+      transition-delay: 0.15s;
+    }
+
+    .anim-fade.d2 {
+      transition-delay: 0.3s;
+    }
+
+    .anim-fade.d3 {
+      transition-delay: 0.45s;
+    }
+
+    .entered .anim-up {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .entered .anim-fade {
+      opacity: 1;
+    }
+
+    /* =============================================
+       RESPONSIVE (basic)
+    ============================================= */
+    @media (max-width: 1100px) {
+      .slide-inner {
+        padding: 0 3rem;
+      }
+
+      .about-layout,
+      .reach-layout,
+      .marketing-layout {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .hero-h1 {
+        font-size: 5rem;
+      }
+
+      .winners-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+      }
+
+      .winner-cell.span-col {
+        grid-column: auto;
+        grid-row: auto;
+      }
+
+      .themes-strip {
+        flex-direction: column;
+        height: auto;
+      }
+
+      .theme-card {
+        flex: none;
+        height: 140px;
+      }
+
+      .theme-card:hover {
+        flex: none;
+        height: 260px;
+      }
+
+      .nav-dots {
+        right: 1rem;
+      }
+
+      .hero-logo {
+        left: 3rem;
+      }
+
+      .hero-contact-btn {
+        right: 3rem;
+      }
+
+      .contact-cards-wrap {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .contact-card {
+        width: 100%;
+        max-width: 360px;
+      }
+
+      .stat-num {
+        font-size: 2.2rem;
+      }
+
+      .doodle-annotation {
+        margin-right: 1rem;
+      }
+
+      .deliver-card {
+        padding: 2.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation Dots -->
+  <nav class="nav-dots" id="navDots">
+    <button class="nav-dot active" data-slide="0"></button>
+    <button class="nav-dot" data-slide="1"></button>
+    <button class="nav-dot" data-slide="2"></button>
+    <button class="nav-dot" data-slide="3"></button>
+    <button class="nav-dot" data-slide="4"></button>
+    <button class="nav-dot" data-slide="5"></button>
+    <button class="nav-dot" data-slide="6"></button>
+  </nav>
+
+  <main class="deck" id="deck">
+
+    <!-- ===========================
+       SLIDE 1 — HERO
+  ============================ -->
+    <section class="slide" id="s1">
+      <div class="slide-bg">
+        <img src="images/image32.jpg" alt="PIXELS '24 Main Poster"
+          style="filter: brightness(0.55) saturate(0.8); object-position: center;" />
+      </div>
+
+      <!-- Logo top-left -->
+      <div class="hero-logo anim-up">
+        <img src="images/image9.png" alt="DoPy Logo" />
+        <span class="hero-logo-text">Department of Photography<br>BITS Pilani, Goa</span>
+      </div>
+
+      <!-- Contact Us shortcut -->
+      <a class="hero-contact-btn anim-up"
+        onclick="document.getElementById('s7').scrollIntoView({ behavior: 'smooth' });">
+        Contact Us
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <polyline points="19 12 12 19 5 12"></polyline>
+        </svg>
+      </a>
+
+      <div class="slide-inner">
+        <div class="hero-content">
+          <div class="tag anim-up d1">World Photography Day Competition</div>
+          <h1 class="hero-h1 anim-up d2">
+            Pixels<em>'26</em>
+          </h1>
+          <p class="hero-subtitle anim-up d3">
+            By the Department of Photography · BITS Pilani KK Birla Goa Campus
+          </p>
+          <div class="pill anim-up d4">19th July — 19th August 2026</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================
+       SLIDE 2 — ABOUT
+  ============================ -->
+    <section class="slide" id="s2">
+      <div class="slide-bg">
+        <!-- Holi dust photo gives color warmth -->
+        <img src="images/image13.png" alt="Holi festival photography" />
+      </div>
+      <div class="slide-inner">
+        <div class="about-layout">
+          <!-- Left: Text -->
+          <div>
+            <div class="section-tag anim-up d1">About</div>
+            <h2 class="section-h2 anim-up d2">
+              An <em>International</em><br>Photography Contest
+            </h2>
+            <p class="body-p anim-up d3">
+              Organized annually on World Photography Day, PIXELS brings together
+              visionary photographers from across the nation for a month-long
+              celebration of craft, vision, and storytelling.
+            </p>
+            <div class="stats-row anim-up d4">
+              <div class="stat">
+                <span class="stat-num">2,000+</span>
+                <span class="stat-lbl">Entries</span>
+              </div>
+              <div class="stat">
+                <span class="stat-num">100+</span>
+                <span class="stat-lbl">Colleges</span>
+              </div>
+              <div class="stat">
+                <span class="stat-num">₹5,00,000+</span>
+                <span class="stat-lbl">Worth Prizes</span>
+              </div>
+              <div class="stat">
+                <span class="stat-num">2,500+</span>
+                <span class="stat-lbl">Reached</span>
+              </div>
+            </div>
+            <div class="sponsors-row anim-up d5">
+              <span class="sponsors-lbl">Past sponsors</span>
+              <span class="sponsor-chip">Tupperware</span>
+              <span class="sponsor-chip">Roy Imaging</span>
+            </div>
+          </div>
+
+          <!-- Right: Pixels '25 Poster -->
+          <div class="anim-fade d2">
+            <div class="poster-wrap">
+              <img src="images/Pixels Main Poster 2025.jpeg" alt="PIXELS '25 Main Poster" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================
+       SLIDE 3 — THEMES
+  ============================ -->
+    <section class="slide" id="s3">
+      <div class="slide-bg">
+        <img src="images/image33.jpg" alt="Themes Background" style="filter: brightness(0.35);" />
+      </div>
+      <div class="slide-inner">
+        <div class="themes-header">
+          <div class="section-tag anim-up d1" style="justify-content:center;">Themes for PIXELS' 26</div>
+          <h2 class="section-h2 anim-up d2" style="font-size:2.6rem;">
+            Five Worlds. One Lens.
+          </h2>
+        </div>
+
+        <div class="themes-strip anim-fade d3">
+          <!-- Kinesis -->
+          <div class="theme-card">
+            <img src="images/Kinesis.jpg" alt="Kinesis" />
+            <div class="theme-card-overlay"></div>
+            <div class="theme-label">
+              <span class="theme-name">Kinesis</span>
+              <p class="theme-desc">The fleeting poetry of a world in flux — motion, speed, and mid-air action.</p>
+            </div>
+          </div>
+          <!-- Vultus -->
+          <div class="theme-card">
+            <img src="images/Vultus.jpg" alt="Vultus" />
+            <div class="theme-card-overlay"></div>
+            <div class="theme-label">
+              <span class="theme-name">Vultus</span>
+              <p class="theme-desc">Raw human emotion revealed through expressive, profound portraiture.</p>
+            </div>
+          </div>
+          <!-- Candescence -->
+          <div class="theme-card">
+            <img src="images/Candescence.jpg" alt="Candescence" />
+            <div class="theme-card-overlay"></div>
+            <div class="theme-label">
+              <span class="theme-name">Candescence</span>
+              <p class="theme-desc">The magic of luminosity, glowing nightscapes, and ethereal light.</p>
+            </div>
+          </div>
+          <!-- Primal -->
+          <div class="theme-card">
+            <img src="images/Primal.jpg" alt="Primal" />
+            <div class="theme-card-overlay"></div>
+            <div class="theme-label">
+              <span class="theme-name">Primal</span>
+              <p class="theme-desc">The untamed spirit of the wild — raw fauna and the pulse of nature.</p>
+            </div>
+          </div>
+          <!-- Pangea -->
+          <div class="theme-card">
+            <img src="images/Pangea.jpg" alt="Pangea" />
+            <div class="theme-card-overlay"></div>
+            <div class="theme-label">
+              <span class="theme-name">Pangea</span>
+              <p class="theme-desc">The diverse beauty of a world once united — sweeping landscapes.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================
+       SLIDE 4 — PAST WINNERS
+  ============================ -->
+    <section class="slide" id="s4">
+      <div class="slide-bg">
+        <img src="images/image12.png" alt="Past Winners Background" style="filter: brightness(0.6);" />
+      </div>
+      <div class="slide-inner">
+        <div class="winners-header">
+          <div>
+            <div class="section-tag anim-up d1">PIXELS' 25</div>
+            <h2 class="section-h2 anim-up d2" style="margin-bottom:0;">
+              Past <em>Winners</em>
+            </h2>
+          </div>
+          <p class="body-p anim-up d2" style="max-width:36ch; text-align:right; margin-bottom:0;">
+            2,000+ entries across 5 themes. Winners selected for emotional resonance and technical mastery.
+          </p>
+        </div>
+
+        <div class="winners-grid anim-fade d3">
+          <!-- Large featured winner -->
+          <div class="winner-cell span-col">
+            <img src="images/image15.png" alt="Winner — Virasat theme" />
+            <div class="winner-cell-overlay">
+              <div class="winner-name">Yash Darji</div>
+            </div>
+          </div>
+          <!-- Top right -->
+          <div class="winner-cell">
+            <img src="images/image11.jpeg" alt="Winner — Earthborn theme" />
+            <div class="winner-cell-overlay">
+              <div class="winner-name">Amit Vakil</div>
+            </div>
+          </div>
+          <!-- Bottom right -->
+          <div class="winner-cell">
+            <img src="images/image14.png" alt="Winner — Verdure theme" />
+            <div class="winner-cell-overlay">
+              <div class="winner-name">Sharad Patil</div>
+            </div>
+          </div>
+          <!-- Bottom far right -->
+          <div class="winner-cell">
+            <img src="images/image2.jpeg" alt="Winner — Solotone theme" />
+            <div class="winner-cell-overlay">
+              <div class="winner-name">Ramprasad Dutta</div>
+            </div>
+          </div>
+          <div class="winner-cell">
+            <img src="images/image13.png" alt="Runner up" />
+            <div class="winner-cell-overlay">
+              <div class="winner-name">Saurabh Sirohiya</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================
+       SLIDE 5 — MARKETING AVENUES
+  ============================ -->
+    <section class="slide" id="s5">
+      <div class="slide-bg">
+        <img src="images/Pixels Main Poster 2025.jpeg" alt="PIXELS sponsor marketing"
+          style="object-position: center; filter: brightness(0.2);" />
+      </div>
+      <div class="slide-inner">
+        <div class="marketing-layout">
+          <!-- Visual mockup -->
+          <div class="visual-col anim-fade d1">
+            <img src="images/Marketing Avenues.png" alt="Marketing Avenues"
+              style="width: 100%; border-radius: 12px; box-shadow: 0 30px 70px rgba(0,0,0,0.5);" />
+          </div>
+
+          <!-- Text -->
+          <div class="text-col">
+            <div class="section-tag anim-up d1">Sponsorship</div>
+            <h2 class="section-h2 anim-up d2" style="margin-bottom: 2.2rem;">
+              Where Your Brand<br><em>Meets Creativity</em>
+            </h2>
+
+            <ul class="avenues anim-up d3">
+              <li class="avenue">
+                <span class="avenue-num">1</span>
+                <div class="avenue-body">
+                  <h4>Social Media Campaigns</h4>
+                  <p>Dedicated sponsor reveal posts, theme campaigns & collaborative winner announcements reaching 35K+.
+                  </p>
+                </div>
+              </li>
+              <li class="avenue">
+                <span class="avenue-num">2</span>
+                <div class="avenue-body">
+                  <h4>Event Branding</h4>
+                  <p>Prominent logo on PIXELS '26 main poster, all major promotional creatives & official website.</p>
+                </div>
+              </li>
+              <li class="avenue">
+                <span class="avenue-num">3</span>
+                <div class="avenue-body">
+                  <h4>Direct Outreach</h4>
+                  <p>Posters dispatched to 2,000+ individuals & 500 colleges nationwide.</p>
+                </div>
+              </li>
+              <li class="avenue">
+                <span class="avenue-num">4</span>
+                <div class="avenue-body">
+                  <h4>On-Campus Displays</h4>
+                  <p>Physical branding at campus screenings during the shortlisted entry showcase. Seen by 4000+ people
+                    in the campus.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================
+       SLIDE 6 — REACH & DELIVERABLES
+  ============================ -->
+    <section class="slide" id="s6">
+      <div class="slide-bg">
+        <!-- Bokeh / atmospheric background -->
+        <img src="images/image16.jpeg" alt="Photography atmosphere"
+          style="filter: brightness(0.5) saturate(0.8);" />
+      </div>
+      <div class="slide-inner">
+        <div class="reach-layout">
+          <!-- Platform stats -->
+          <div>
+            <div class="section-tag anim-up d1">Proven Reach</div>
+            <h2 class="section-h2 anim-up d2">
+              Where Your<br>Brand <em>Gets Seen</em>
+            </h2>
+
+            <div class="platform-stats anim-up d3">
+              <div class="platform-item">
+                <div class="platform-name">YouTube</div>
+                <div class="platform-big">2.9M+</div>
+                <div class="platform-detail">Total Views &nbsp;·&nbsp; 11,200+ Subscribers</div>
+              </div>
+              <div class="platform-item">
+                <div class="platform-name">Instagram</div>
+                <div class="platform-big">126K+</div>
+                <div class="platform-detail">Quarterly Views &nbsp;·&nbsp; 35,000+ Accounts Reached</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Deliverables card -->
+          <div class="deliver-card anim-up d3">
+            <div class="deliver-label">Investment</div>
+            <div class="deliver-title">Title Sponsor</div>
+            <div class="deliver-price">INR 20,000</div>
+
+            <ul class="deliver-list">
+              <li>Social media presence across all theme & winner campaigns</li>
+              <li>Logo placement on poster, website & all digital creatives</li>
+              <li>Direct outreach to 2,000+ individuals & 500 colleges</li>
+              <li>Physical branding at on-campus PIXELS screening event</li>
+              <li>Collaborative content & sponsor reveal posts</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================
+       SLIDE 7 — CONTACT
+  ============================ -->
+    <section class="slide" id="s7">
+      <div class="slide-bg collage-bg">
+        <img src="images/image3.jpeg" alt="" />
+        <img src="images/image1.jpeg" alt="" />
+        <img src="images/image31.jpg" alt="" />
+      </div>
+      <div class="slide-inner">
+        <div class="contact-inner">
+          <div class="section-tag anim-up d1" style="justify-content:center;">Let's Build Something Together</div>
+          <h2 class="contact-h2 anim-up d2">Get in <em>Touch</em></h2>
+          <p class="contact-sub anim-up d3">We'd love to have you on board for PIXELS' 26.</p>
+
+          <div class="contact-cards-wrap anim-up d3">
+            <div class="contact-card">
+              <div class="contact-img"><img src="images/Parth Agarwal - Chief Coordinator.jpeg" alt="Parth"></div>
+              <h3>Parth Agarwal</h3>
+              <div class="role">Chief Coordinator</div>
+              <div class="info">
+                <a href="tel:+919082835051">+91 90828 35051</a>
+                <a href="mailto:parthagarwal212@gmail.com">parthagarwal212@gmail.com</a>
+              </div>
+            </div>
+
+            <div class="contact-card">
+              <div class="contact-img"><img src="images/Adit Tambe - Head of Photography.jpeg" alt="Adit"></div>
+              <h3>Adit Tambe</h3>
+              <div class="role">Head of Photography</div>
+              <div class="info">
+                <a href="tel:+919082323948">+91 90823 23948</a>
+                <a href="mailto:ast592006@gmail.com">ast592006@gmail.com</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scribble doodle annotation -->
+          <div class="doodle-annotation anim-up d4">
+            <svg width="160" height="60" viewBox="0 0 160 60">
+              <text class="doodle-text" x="25" y="18">check us out!</text>
+              <path class="doodle-arrow" d="M80 28 C82 36, 78 42, 80 50 C81 53, 79 55, 80 58" />
+              <path class="doodle-arrow" d="M74 52 L80 60 L86 52" style="animation-delay: 1.6s;" />
+            </svg>
+          </div>
+
+          <div class="social-strip anim-up d4">
+            <a href="https://www.youtube.com/@dopybitsgoa" target="_blank" aria-label="YouTube">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z">
+                </path>
+                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/dopybitsgoa/" target="_blank" aria-label="Instagram">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+            <a href="https://www.facebook.com/DoPy.BITSGoa" target="_blank" aria-label="Facebook">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+              </svg>
+            </a>
+            <a href="https://www.dopybitsgoa.com/" target="_blank" aria-label="DoPy Website">
+              <img src="images/DoPy icon.png" alt="DoPy Icon"
+                style="width:24px; height:24px; filter: brightness(0.7); transition: filter 0.2s;"
+                onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(0.7)'" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    (() => {
+      const deck = document.getElementById('deck');
+      const slides = [...document.querySelectorAll('.slide')];
+      const dots = [...document.querySelectorAll('.nav-dot')];
+
+      /* ─── Enter slide: add .entered class ─── */
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('entered');
+          }
+        });
+      }, { root: deck, threshold: 0.45 });
+
+      slides.forEach(s => io.observe(s));
+
+      /* ─── Track active slide for nav dots ─── */
+      const dotObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const idx = slides.indexOf(entry.target);
+            dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+          }
+        });
+      }, { root: deck, threshold: 0.5 });
+
+      slides.forEach(s => dotObserver.observe(s));
+
+      /* ─── Nav dot click ─── */
+      dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+          slides[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+
+      /* ─── Keyboard navigation ─── */
+      document.addEventListener('keydown', (e) => {
+        const current = slides.findIndex(s => s.classList.contains('entered') &&
+          s.getBoundingClientRect().top > -50 && s.getBoundingClientRect().top < 50);
+        const idx = Math.max(0, slides.findIndex(s => {
+          const r = s.getBoundingClientRect();
+          return r.top >= -deck.clientHeight * 0.2 && r.top <= deck.clientHeight * 0.2;
+        }));
+        if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+          e.preventDefault();
+          if (idx < slides.length - 1) slides[idx + 1].scrollIntoView({ behavior: 'smooth' });
+        } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+          e.preventDefault();
+          if (idx > 0) slides[idx - 1].scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    })();
+  </script>
+
+</body>
+
+</html>
