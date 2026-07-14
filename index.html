@@ -1128,7 +1128,8 @@
       .slide {
         scroll-snap-stop: always;
         min-height: 100vh;
-        min-height: 100dvh; /* dynamic viewport height for mobile browsers */
+        min-height: 100dvh;
+        /* dynamic viewport height for mobile browsers */
       }
 
       .deck {
@@ -1681,7 +1682,7 @@
 
       .doodle-text {
         font-size: 0.8rem;
-        transform: translate(15px, 0);
+        transform: translate(30px, 0);
       }
 
       /* Collage background for contact — make it work in single col on phones */
@@ -1699,6 +1700,7 @@
        TOUCH DEVICE ENHANCEMENTS
     ============================================= */
     @media (hover: none) and (pointer: coarse) {
+
       /* Theme cards: show descriptions always since hover isn't available */
       .theme-card .theme-desc {
         opacity: 0.8;
@@ -2109,8 +2111,7 @@
     <section class="slide" id="s6">
       <div class="slide-bg">
         <!-- Bokeh / atmospheric background -->
-        <img src="images/image16.jpeg" alt="Photography atmosphere"
-          style="filter: brightness(0.5) saturate(0.8);" />
+        <img src="images/image16.jpeg" alt="Photography atmosphere" style="filter: brightness(0.5) saturate(0.8);" />
       </div>
       <div class="slide-inner">
         <div class="reach-layout">
